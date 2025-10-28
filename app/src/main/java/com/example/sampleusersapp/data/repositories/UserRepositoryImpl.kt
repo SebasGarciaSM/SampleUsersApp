@@ -10,24 +10,28 @@ class UserRepositoryImpl @Inject constructor(
     private val api: UsersApiService
 ) : IUserRepository {
 
+    private var cachedUsers: List<UserModel>? = null
+
     override suspend fun getUsers(): List<UserModel> {
         val users = mutableListOf<UserModel>()
-        return try {
+        return cachedUsers ?: run {
             val response = api.fetchUsers()
             if (response.isSuccessful) {
-                response.body()?.let {
-                    for (user in it.users) {
-                        users.add(
-                            user.toDomain()
-                        )
-                    }
+                val results = response.body()?.let {
+                    it.users.map { it.toDomain() }
+                }
+                results?.let {
+                    users.addAll(it)
                 }
             }
             users
-        } catch (e: Exception) {
-            println(e.toString())
-            users
         }
     }
+
+    override suspend fun getUser(id: Long): UserModel? {
+        val users = cachedUsers ?: getUsers()
+        return users.find { it.id == id }
+    }
+
 
 }

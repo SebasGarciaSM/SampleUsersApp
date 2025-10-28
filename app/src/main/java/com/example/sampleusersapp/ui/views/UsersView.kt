@@ -18,12 +18,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.sampleusersapp.domain.models.UserModel
 import com.example.sampleusersapp.ui.core.composables.UserListItem
+import com.example.sampleusersapp.ui.navigation.AppRoutes
+import com.example.sampleusersapp.ui.navigation.AppRoutesArgs
 import com.example.sampleusersapp.ui.viewmodels.UsersViewModel
 
 @Composable
 fun UsersView(
+    navController: NavHostController,
     viewModel: UsersViewModel = hiltViewModel()
 ) {
 
@@ -31,7 +35,10 @@ fun UsersView(
 
     UsersViewContent(
         users = users.value,
-        onAddUser = { viewModel.addUser() }
+        onAddUser = { viewModel.addUser() },
+        goToUserDetails = { userId ->
+            navController.navigate("${AppRoutes.USERS_DETAILS}/$userId")
+        }
     )
 }
 
@@ -41,6 +48,7 @@ private fun UsersViewContent(
     modifier: Modifier = Modifier,
     users: List<UserModel>,
     onAddUser: () -> Unit,
+    goToUserDetails: (Long) -> Unit,
 ) {
     Scaffold(
         modifier = modifier,
@@ -64,7 +72,9 @@ private fun UsersViewContent(
         ) {
             items(users) { user ->
                 UserListItem(
-                    modifier = Modifier.clickable {},
+                    modifier = Modifier.clickable {
+                        goToUserDetails(user.id)
+                    },
                     user = user
                 )
             }
@@ -77,6 +87,7 @@ private fun UsersViewContent(
 private fun UsersViewPreview(modifier: Modifier = Modifier) {
     UsersViewContent(
         users = emptyList(),
-        onAddUser = { }
+        onAddUser = { },
+        goToUserDetails = { }
     )
 }

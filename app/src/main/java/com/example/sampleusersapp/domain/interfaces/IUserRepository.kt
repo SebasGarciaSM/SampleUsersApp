@@ -6,4 +6,6 @@ interface IUserRepository {
 
     suspend fun getUsers(): List<UserModel>
 
+    suspend fun getUser(id: Long): UserModel?
+
 }
