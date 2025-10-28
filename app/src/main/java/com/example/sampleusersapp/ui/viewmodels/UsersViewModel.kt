@@ -4,10 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sampleusersapp.domain.interfaces.IUserRepository
 import com.example.sampleusersapp.domain.models.UserModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UsersViewModel(
+@HiltViewModel
+class UsersViewModel @Inject constructor(
     private val repository: IUserRepository
 ) : ViewModel() {
 
