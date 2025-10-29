@@ -22,12 +22,10 @@ import androidx.navigation.NavHostController
 import com.example.sampleusersapp.domain.models.UserModel
 import com.example.sampleusersapp.ui.core.composables.UserListItem
 import com.example.sampleusersapp.ui.navigation.AppRoutes
-import com.example.sampleusersapp.ui.navigation.AppRoutesArgs
 import com.example.sampleusersapp.ui.viewmodels.UsersViewModel
 
 @Composable
 fun UsersView(
-    navController: NavHostController,
     viewModel: UsersViewModel = hiltViewModel()
 ) {
 
@@ -36,9 +34,7 @@ fun UsersView(
     UsersViewContent(
         users = users.value,
         onAddUser = { viewModel.addUser() },
-        goToUserDetails = { userId ->
-            navController.navigate("${AppRoutes.USERS_DETAILS}/$userId")
-        }
+        goToUserDetails = { viewModel.onNavigateToUserDetails(it) }
     )
 }
 

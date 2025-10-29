@@ -5,26 +5,25 @@ import com.example.sampleusersapp.data.toDomain
 import com.example.sampleusersapp.domain.interfaces.IUserRepository
 import com.example.sampleusersapp.domain.models.UserModel
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class UserRepositoryImpl @Inject constructor(
     private val api: UsersApiService
 ) : IUserRepository {
 
-    private var cachedUsers: List<UserModel>? = null
+    private var cachedUsers: MutableList<UserModel>? = null
 
     override suspend fun getUsers(): List<UserModel> {
-        val users = mutableListOf<UserModel>()
-        return cachedUsers ?: run {
+        return cachedUsers?.toList() ?: run {
             val response = api.fetchUsers()
-            if (response.isSuccessful) {
-                val results = response.body()?.let {
-                    it.users.map { it.toDomain() }
-                }
-                results?.let {
-                    users.addAll(it)
-                }
+            val usersList = if (response.isSuccessful) {
+                response.body()?.users?.map { it.toDomain() } ?: emptyList()
+            } else {
+                emptyList()
             }
-            users
+            cachedUsers = usersList.toMutableList()
+            cachedUsers!!.toList()
         }
     }
 
@@ -33,5 +32,10 @@ class UserRepositoryImpl @Inject constructor(
         return users.find { it.id == id }
     }
 
-
+    override suspend fun addUser(user: UserModel) {
+        if (cachedUsers == null) {
+            getUsers()
+        }
+        cachedUsers?.add(user)
+    }
 }
