@@ -13,5 +13,7 @@ import javax.inject.Singleton
 abstract class RepositoryModule {
 
     @Binds
+    @Singleton
     abstract fun bindUserRepository(impl: UserRepositoryImpl): IUserRepository
+
 }

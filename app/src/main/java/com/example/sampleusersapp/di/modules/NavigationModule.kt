@@ -1,6 +1,5 @@
 package com.example.sampleusersapp.di.modules
 
-import androidx.navigation.Navigation
 import com.example.sampleusersapp.data.local.NavigationBus
 import com.example.sampleusersapp.domain.interfaces.INavigationEmitter
 import com.example.sampleusersapp.domain.interfaces.INavigationReceiver

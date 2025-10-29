@@ -18,10 +18,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.example.sampleusersapp.domain.models.UserModel
 import com.example.sampleusersapp.ui.core.composables.UserListItem
-import com.example.sampleusersapp.ui.navigation.AppRoutes
 import com.example.sampleusersapp.ui.viewmodels.UsersViewModel
 
 @Composable

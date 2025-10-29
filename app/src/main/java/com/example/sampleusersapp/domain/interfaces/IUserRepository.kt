@@ -1,7 +1,6 @@
 package com.example.sampleusersapp.domain.interfaces
 
 import com.example.sampleusersapp.domain.models.UserModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 
 interface IUserRepository {
 

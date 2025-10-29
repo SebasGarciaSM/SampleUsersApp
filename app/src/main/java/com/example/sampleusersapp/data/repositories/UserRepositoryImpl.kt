@@ -5,9 +5,7 @@ import com.example.sampleusersapp.data.toDomain
 import com.example.sampleusersapp.domain.interfaces.IUserRepository
 import com.example.sampleusersapp.domain.models.UserModel
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class UserRepositoryImpl @Inject constructor(
     private val api: UsersApiService
 ) : IUserRepository {
